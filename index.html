@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harsh Mudgal — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --accent: #f5c518;
+    --accent2: #e05c2a;
+    --text: #f0ede8;
+    --muted: #6b6760;
+    --card: #131313;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .hero-left {
+    padding: 8rem 4rem 4rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.2rem, 5vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    color: var(--text);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 420px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0a;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn-ghost:hover {
+    border-color: var(--text);
+  }
+
+  .hero-right {
+    padding: 8rem 4rem 4rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeUp 0.9s 0.15s ease both;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .stat {
+    background: var(--bg);
+    padding: 2rem;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-num span { color: var(--accent); }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .skills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* SECTION LAYOUT */
+  section {
+    padding: 7rem 4rem;
+    border-top: 1px solid var(--border);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  /* PRODUCTS */
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .product-card {
+    background: var(--card);
+    padding: 3.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .product-card:hover::before { transform: scaleX(1); }
+  .product-card:hover { background: #161616; }
+
+  .product-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--accent2);
+    margin-bottom: 1.5rem;
+  }
+
+  .product-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    text-decoration: none;
+  }
+  .product-url:hover { color: var(--accent); }
+
+  .product-desc {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .product-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .product-bullets li {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .product-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .product-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.2rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .product-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* PROJECTS */
+  .projects-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+
+  .project-item {
+    background: var(--card);
+    padding: 3rem 3.5rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 3rem;
+    align-items: start;
+    transition: background 0.25s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-item:hover { background: #161616; }
+
+  .project-meta { }
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+
+  .project-body { }
+
+  .project-desc {
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .project-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .highlight {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    padding: 0.4rem 0.8rem;
+    background: var(--surface);
+    border-left: 2px solid var(--accent);
+  }
+
+  .project-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-end;
+  }
+
+  .stack-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ABOUT / CONTACT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .contact-item {
+    background: var(--card);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+  }
+
+  .contact-item:hover { background: #161616; }
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .contact-value {
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .contact-arrow { color: var(--accent); font-size: 1rem; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-grid-line { display: none; }
+    .hero-left, .hero-right { padding: 3rem 1.5rem; border: none; }
+    .hero-left { padding-top: 7rem; }
+    section { padding: 4rem 1.5rem; }
+    .products-grid { grid-template-columns: 1fr; }
+    .project-item { grid-template-columns: 1fr; gap: 1.5rem; }
+    .project-stack { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Harsh Mudgal</a>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid-line"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">Data Analyst · BI Analyst · AI Product Builder</div>
+    <h1>Turning raw<br>data into<br><em>decisions.</em></h1>
+    <p class="hero-desc">
+      End-to-end analytics, ETL pipelines, and AI-powered SaaS products —
+      built independently. Based in Delhi, working across global markets.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Get in touch ↓</a>
+      <a href="#projects" class="btn btn-ghost">View projects</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">2<span>+</span></div>
+        <div class="stat-label">Live AI SaaS Products</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4<span>+</span></div>
+        <div class="stat-label">Markets (US, UK, AU, EU)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5<span>k</span></div>
+        <div class="stat-label">Customers Segmented</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">250<span>+</span></div>
+        <div class="stat-label">LeetCode Problems Solved</div>
+      </div>
+    </div>
+
+    <div class="skills-row">
+      <span class="skill-tag">SQL</span>
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Power BI</span>
+      <span class="skill-tag">Tableau</span>
+      <span class="skill-tag">ETL</span>
+      <span class="skill-tag">Scikit-learn</span>
+      <span class="skill-tag">MySQL</span>
+      <span class="skill-tag">PostgreSQL</span>
+      <span class="skill-tag">Pandas</span>
+      <span class="skill-tag">Streamlit</span>
+      <span class="skill-tag">Prophet</span>
+      <span class="skill-tag">REST APIs</span>
+    </div>
+  </div>
+</div>
+
+<!-- AI PRODUCTS -->
+<section id="products" class="fade-in">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>AI Products</h2>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-num">Product 01 · Live</div>
+      <div class="product-title">ReviewPilot</div>
+      <a href="https://tryreviewpilot.com" target="_blank" class="product-url">tryreviewpilot.com ↗</a>
+      <p class="product-desc">
+        Automatically generates and posts AI-driven replies to Google Business Profile reviews
+        within 60 minutes, across 15+ languages.
+      </p>
+      <ul class="product-bullets">
+        <li>Integrated Google Business Profile API for end-to-end automation</li>
+        <li>Covers US, UK, AU, and EU markets</li>
+        <li>Removes all manual effort for restaurant owners</li>
+        <li>Handles workflow automation, onboarding, and go-to-market independently</li>
+      </ul>
+      <a href="https://tryreviewpilot.com" target="_blank" class="product-link">Visit product ↗</a>
+    </div>
+
+    <div class="product-card">
+      <div class="product-num">Product 02 · Live</div>
+      <div class="product-title">LeadCatcher</div>
+      <a href="https://getleadcatcher.com" target="_blank" class="product-url">getleadcatcher.com ↗</a>
+      <p class="product-desc">
+        AI-powered lead response tool for trade businesses — auto-responds to customer
+        inquiries via SMS within 60 seconds and routes leads into a CRM.
+      </p>
+      <ul class="product-bullets">
+        <li>Serves plumbers, HVAC, dental, and other trade businesses</li>
+        <li>Designed follow-up sequences reducing manual follow-up by ~60%</li>
+        <li>Appointment booking workflows integrated into CRM pipeline</li>
+        <li>Scaled across US, UK, AU, and EU markets</li>
+      </ul>
+      <a href="https://getleadcatcher.com" target="_blank" class="product-link">Visit product ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="fade-in">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Data Projects</h2>
+  </div>
+
+  <div class="projects-list">
+    <a href="https://github.com/harshmudgal13/ecommerce-clv-analysis" target="_blank" class="project-item">
+      <div class="project-meta">
+        <span class="project-tag">Python · SQL · Tableau</span>
+        <div class="project-title">E-Commerce CLV &amp; Customer Retention Analysis</div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          End-to-end RFM segmentation, CLV modeling, churn prediction, and cohort analysis
+          on 5,000 customers — delivered via an interactive Tableau Story dashboard.
+        </p>
+        <div class="project-highlights">
+          <div class="highlight">Champions segment: 21× more revenue than Lost customers ($6,604 vs $306 avg CLV)</div>
+          <div class="highlight">Pareto confirmed: top 20% of customers drive 80% of revenue</div>
+          <div class="highlight">59.3% first-purchase churn rate identified via cohort analysis</div>
+        </div>
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">SQL</span>
+        <span class="stack-tag">Scikit-learn</span>
+        <span class="stack-tag">Tableau</span>
+        <span class="stack-tag">Random Forest</span>
+      </div>
+    </a>
+
+    <a href="https://github.com/harshmudgal13/global-trade-tariff-analysis" target="_blank" class="project-item">
+      <div class="project-meta">
+        <span class="project-tag">Python · Streamlit · Plotly</span>
+        <div class="project-title">Global Trade &amp; Tariff Impact Analysis</div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          Automated data pipeline ingesting 10 years of trade data from World Bank API and
+          UN Comtrade, with time-series forecasting and a live interactive dashboard.
+        </p>
+        <div class="project-highlights">
+          <div class="highlight">MAPE under 8% on Facebook Prophet forecasting model</div>
+          <div class="highlight">Projected $200B–$300B in annual foregone trade</div>
+          <div class="highlight">14-country scope · 9+ interactive Plotly charts deployed live</div>
+        </div>
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Prophet</span>
+        <span class="stack-tag">Streamlit</span>
+        <span class="stack-tag">Plotly</span>
+        <span class="stack-tag">Pandas</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="fade-in">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>About</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a <strong>Data Analyst and BI Analyst</strong> based in Delhi with a background that spans
+        academic research, UPSC preparation (top 2% among ~1M candidates), and hands-on
+        analytics product development.
+      </p>
+      <br>
+      <p>
+        My work spans <strong>SQL, Python, Power BI, Tableau</strong>, and end-to-end ETL pipelines —
+        with a sharp focus on translating complex datasets into decisions that actually move
+        the business. I've shipped two live AI SaaS products independently, managing everything
+        from API integration to international go-to-market.
+      </p>
+      <br>
+      <p>
+        Currently pursuing the <strong>Microsoft Power BI PL-300 certification</strong> and continuously
+        deepening expertise in predictive analytics and machine learning.
+      </p>
+    </div>
+
+    <div>
+      <ul class="contact-list" id="contact">
+        <a href="mailto:harshmudgal13@gmail.com" class="contact-item">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">harshmudgal13@gmail.com</span>
+          <span class="contact-arrow">↗</span>
+        </a>
+        <a href="https://linkedin.com/in/harshmudgalsharma" target="_blank" class="contact-item">
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value">linkedin.com/in/harshmudgalsharma</span>
+          <span class="contact-arrow">↗</span>
+        </a>
+        <a href="https://github.com/harshmudgal13" target="_blank" class="contact-item">
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">github.com/harshmudgal13</span>
+          <span class="contact-arrow">↗</span>
+        </a>
+        <div class="contact-item" style="cursor:default;">
+          <span class="contact-label">Location</span>
+          <span class="contact-value">Delhi, India</span>
+          <span class="contact-arrow" style="color:var(--muted)">📍</span>
+        </div>
+        <div class="contact-item" style="cursor:default;">
+          <span class="contact-label">Phone</span>
+          <span class="contact-value">+91 85958 11492</span>
+          <span class="contact-arrow" style="color:var(--muted)">—</span>
+        </div>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2026 Harsh Mudgal · Built for opportunity</div>
+  <div class="footer-copy">Delhi, India · Open to roles globally</div>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
