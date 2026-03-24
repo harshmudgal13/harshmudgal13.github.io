@@ -30,7 +30,6 @@
     overflow-x: hidden;
   }
 
-  /* Noise overlay */
   body::before {
     content: '';
     position: fixed;
@@ -41,7 +40,6 @@
     opacity: 0.35;
   }
 
-  /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -75,7 +73,6 @@
   }
   .nav-links a:hover { color: var(--accent); }
 
-  /* HERO */
   .hero {
     min-height: 100vh;
     display: grid;
@@ -243,7 +240,6 @@
     color: var(--accent);
   }
 
-  /* SECTION LAYOUT */
   section {
     padding: 7rem 4rem;
     border-top: 1px solid var(--border);
@@ -272,7 +268,6 @@
     color: var(--text);
   }
 
-  /* PRODUCTS */
   .products-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -373,7 +368,6 @@
   }
   .product-link:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* PROJECTS */
   .projects-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
 
   .project-item {
@@ -447,7 +441,6 @@
     white-space: nowrap;
   }
 
-  /* ABOUT / CONTACT */
   .about-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -500,7 +493,6 @@
 
   .contact-arrow { color: var(--accent); font-size: 1rem; }
 
-  /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
     padding: 2.5rem 4rem;
@@ -518,7 +510,6 @@
     color: var(--muted);
   }
 
-  /* ANIMATIONS */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
@@ -534,7 +525,6 @@
     transform: translateY(0);
   }
 
-  /* RESPONSIVE */
   @media (max-width: 900px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { gap: 1.5rem; }
@@ -553,7 +543,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">Harsh Mudgal</a>
   <ul class="nav-links">
@@ -564,7 +553,6 @@
   </ul>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-grid-line"></div>
 
@@ -593,7 +581,7 @@
       </div>
       <div class="stat">
         <div class="stat-num">5<span>k</span></div>
-        <div class="stat-label">Customers Segmented</div>
+        <div class="stat-label">Records Analyzed</div>
       </div>
       <div class="stat">
         <div class="stat-num">250<span>+</span></div>
@@ -618,7 +606,6 @@
   </div>
 </div>
 
-<!-- AI PRODUCTS -->
 <section id="products" class="fade-in">
   <div class="section-header">
     <span class="section-num">01</span>
@@ -636,8 +623,8 @@
       </p>
       <ul class="product-bullets">
         <li>Integrated Google Business Profile API for end-to-end automation</li>
-        <li>Covers US, UK, AU, and EU markets</li>
-        <li>Removes all manual effort for restaurant owners</li>
+        <li>Built for US, UK, AU, and EU markets</li>
+        <li>Designed to remove all manual effort for restaurant owners</li>
         <li>Handles workflow automation, onboarding, and go-to-market independently</li>
       </ul>
       <a href="https://tryreviewpilot.com" target="_blank" class="product-link">Visit product ↗</a>
@@ -653,16 +640,15 @@
       </p>
       <ul class="product-bullets">
         <li>Serves plumbers, HVAC, dental, and other trade businesses</li>
-        <li>Designed follow-up sequences reducing manual follow-up by ~60%</li>
+        <li>Designed follow-up sequences to reduce manual follow-up by ~60%</li>
         <li>Appointment booking workflows integrated into CRM pipeline</li>
-        <li>Scaled across US, UK, AU, and EU markets</li>
+        <li>Built for US, UK, AU, and EU markets</li>
       </ul>
       <a href="https://getleadcatcher.com" target="_blank" class="product-link">Visit product ↗</a>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects" class="fade-in">
   <div class="section-header">
     <span class="section-num">02</span>
@@ -722,7 +708,6 @@
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about" class="fade-in">
   <div class="section-header">
     <span class="section-num">03</span>
@@ -788,7 +773,6 @@
 </footer>
 
 <script>
-  // Scroll fade-in
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
